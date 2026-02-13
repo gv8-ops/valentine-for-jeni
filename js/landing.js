@@ -77,8 +77,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function floatNoButton() {
-        const maxX = window.innerWidth - noBtn.offsetWidth - 50;
-        const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+        // Reduce margins to give more space for button movement
+        const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+        const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
         const randomX = Math.random() * maxX;
         const randomY = Math.random() * maxY;
