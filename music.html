@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name=" viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music for You 🎵</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="hub-page">
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts"></div>
+
+    <!-- Back Button -->
+    <a href="hub.html" class="back-arrow">
+        <svg viewBox="0 0 24 24" width="32" height="32">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="currentColor" />
+        </svg>
+    </a>
+
+    <!-- Music Page Content -->
+    <div class="music-container">
+        <h1 class="page-title">Music for You</h1>
+
+        <div class="music-content">
+            <p class="music-intro">A playlist of songs that remind me of you 💕</p>
+
+            <!-- Start Music Button (appears only if not playing) -->
+            <button class="start-music-btn" id="startMusicBtn" onclick="startMusic()">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="currentColor" d="M8 5v14l11-7z" />
+                </svg>
+                Start Playing
+            </button>
+
+            <!--  Music Player showing playlist -->
+            <div class="music-player" id="musicPlayerDisplay">
+                <div class="now-playing">
+                    <p class="now-playing-label">Now Playing:</p>
+                    <h2 class="current-song-title" id="currentSongDisplay">Song 1</h2>
+                </div>
+
+                <div class="player-controls">
+                    <button class="control-btn" onclick="musicPlayer.prev()">
+                        <svg viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+                        </svg>
+                    </button>
+
+                    <button class="play-pause-btn control-btn" id="mainPlayBtn" onclick="musicPlayer.togglePlay()">
+                        <svg viewBox="0 0 24 24" width="36" height="36">
+                            <path fill="currentColor" d="M8 5v14l11-7z" />
+                        </svg>
+                    </button>
+
+                    <button class="control-btn" onclick="musicPlayer.next()">
+                        <svg viewBox="0 0 24 24" width="32" height="32">
+                            <path fill="currentColor" d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+                        </svg>
+                    </button>
+                </div>
+
+                <button class="view-playlist-btn" onclick="showPlaylist()">View Full Playlist</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Playlist Modal -->
+    <div class="playlist-modal" id="playlistModal">
+        <div class="playlist-content">
+            <div class="playlist-header">
+                <h2>Playlist</h2>
+                <span class="close-playlist" onclick="closePlaylist()">&times;</span>
+            </div>
+            <div class="playlist-items" id="playlistItems">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Flower Burst Container -->
+    <div class="flower-burst-container" id="flowerBurst"></div>
+
+    <script src="js/persistent-music.js"></script>
+    <script>
+        // Music page specific functions
+        function startMusic() {
+            musicPlayer.loadSong(0);
+            musicPlayer.play();
+            document.getElementById('startMusicBtn').style.display = 'none';
+            document.getElementById('musicPlayerDisplay').style.display = 'block';
+            updateMusicDisplay();
+        }
+
+        function updateMusicDisplay() {
+            const titleEl = document.getElementById('currentSongDisplay');
+            const playBtn = document.getElementById('mainPlayBtn');
+
+            if (titleEl && musicPlayer) {
+                const song = musicPlayer.getCurrentSong();
+                titleEl.textContent = song.title;
+            }
+
+            if (playBtn && musicPlayer) {
+                playBtn.innerHTML = musicPlayer.isPlaying ?
+                    '<svg viewBox="0 0 24 24" width="36" height="36"><path fill="currentColor" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>' :
+                    '<svg viewBox="0 0 24 24" width="36" height="36"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>';
+            }
+        }
+
+        function showPlaylist() {
+            document.getElementById('playlistModal').classList.add('active');
+            populatePlaylist();
+        }
+
+        function closePlaylist() {
+            document.getElementById('playlistModal').classList.remove('active');
+        }
+
+        function populatePlaylist() {
+            const container = document.getElementById('playlistItems');
+            container.innerHTML = '';
+
+            musicPlayer.playlist.forEach((song, index) => {
+                const item = document.createElement('div');
+                item.className = 'playlist-item';
+                if (index === musicPlayer.currentIndex) {
+                    item.classList.add('playing');
+                }
+                item.innerHTML = `
+                    <span class="playlist-item-number">${index + 1}.</span>
+                    <span>${song.title}</span>
+                `;
+                item.onclick = () => {
+                    musicPlayer.loadSong(index);
+                    musicPlayer.play();
+                    closePlaylist();
+                    updateMusicDisplay();
+                };
+                container.appendChild(item);
+            });
+        }
+
+        // Check if music is already playing and show player
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(() => {
+                if (musicPlayer && musicPlayer.isPlaying) {
+                    document.getElementById('startMusicBtn').style.display = 'none';
+                    document.getElementById('musicPlayerDisplay').style.display = 'block';
+                    updateMusicDisplay();
+                } else if (musicPlayer && musicPlayer.currentIndex > 0) {
+                    document.getElementById('startMusicBtn').style.display = 'none';
+                    document.getElementById('musicPlayerDisplay').style.display = 'block';
+                    updateMusicDisplay();
+                }
+
+                // Update display periodically
+                setInterval(updateMusicDisplay, 1000);
+
+                // Create floating hearts
+                createFloatingHearts();
+            }, 100);
+        });
+
+        function createFloatingHearts() {
+            const heartsContainer = document.querySelector('.floating-hearts');
+            const heartCount = 20;
+            const heartSymbols = ['♥', '❤', '💕', '💖', '💗', '💓', '💞'];
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                heart.style.position = 'absolute';
+                heart.style.fontSize = (15 + Math.random() * 20) + 'px';
+                heart.style.color = `rgba(255, 182, 193, ${0.2 + Math.random() * 0.3})`;
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animation = `float ${10 + Math.random() * 10}s infinite ease-in-out`;
+                heart.style.animationDelay = Math.random() * 5 + 's';
+
+                heartsContainer.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+
+</html>

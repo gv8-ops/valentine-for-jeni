@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Well Do You Know Us? 💕</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="hub-page">
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts"></div>
+
+    <!-- Back Button -->
+    <a href="hub.html" class="back-arrow">
+        <svg viewBox="0 0 24 24" width="32" height="32">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="currentColor" />
+        </svg>
+    </a>
+
+    <!-- Quiz Container -->
+    <div class="quiz-container">
+        <h1 class="page-title">How Well Do You Know Us?</h1>
+        <p class="quiz-intro">Let's see how well you remember our journey together! 💕</p>
+
+        <!-- Progress Bar -->
+        <div class="quiz-progress">
+            <div class="progress-bar" id="progressBar"></div>
+            <p class="progress-text"><span id="currentQuestion">1</span> of <span id="totalQuestions">7</span></p>
+        </div>
+
+        <!-- Quiz Card -->
+        <div class="quiz-card" id="quizCard">
+            <h2 class="question-text" id="questionText">Loading...</h2>
+
+            <div class="options-container" id="optionsContainer">
+                <!-- Options will be populated by JavaScript -->
+            </div>
+
+            <button class="next-btn" id="nextBtn" style="display: none;">Next Question ➜</button>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="quiz-results" id="resultsScreen" style="display: none;">
+            <div class="results-content">
+                <h2 class="results-title">Quiz Complete! 🎉</h2>
+                <div class="score-display">
+                    <p class="score-text">You got <span id="finalScore">0</span> out of <span id="totalScore">7</span>
+                        correct!</p>
+                </div>
+                <p class="results-message" id="resultsMessage">Amazing! You know us so well! 💕</p>
+                <button class="restart-btn" onclick="window.location.reload()">Take Quiz Again</button>
+                <a href="hub.html" class="home-btn">Back to Hub</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flower Burst Container -->
+    <div class="flower-burst-container" id="flowerBurst"></div>
+
+    <script src="js/persistent-music.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+
+</html>

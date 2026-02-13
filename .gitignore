@@ -1,0 +1,28 @@
+# System and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Test files (keep the actual site files)
+test-image.html
+
+# PowerShell scripts (optional - keep if you want)
+# *.ps1
+
+# Files to delete (from earlier cleanup)
+_DELETE_timeline.html
+
+# Node modules if any
+node_modules/
+
+# Environment files
+.env
